@@ -3,10 +3,6 @@ close all;
 clear all;
 clc;
 
-%% Load Files
-[out1, info1, frames1] = LoadVMIDataFromFile('right side.VOL');
-[out2, info2, frames2] = LoadVMIDataFromFile('left side.VOL');
-
 %% Create 3D sources and grids for file1, file2 and output File
 
 src1 = new_3DSource();
@@ -52,17 +48,11 @@ grid(ha, 'on');
 legend(ha, 'file1', 'file2', 'output');
 
 
-%% Create data matrices
-n_frames = length(frames1);
-data1 = zeros([length(frames1) size(frames1(1).Data)]);
-for fn = 1:1:n_frames
-    data1(fn, :, :, :) = double(frames1(fn).Data)/2^16;
-end
+%% Load Files
+[data1, info1] = readUltrasoundFile('right side.VOL');
+[data2, info2] = readUltrasoundFile('left side.VOL');
 
-data2 = zeros([length(frames2) size(frames2(1).Data)]);
-for fn = 1:1:n_frames
-    data2(fn, :, :, :) = double(frames2(fn).Data)/2^16;
-end
+%% Create output data matrices
 
 out_data1 = zeros(size(data1));
 out_data2 = zeros(size(data1));

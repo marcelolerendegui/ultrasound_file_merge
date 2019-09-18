@@ -159,8 +159,8 @@ while( ~feof(fp) )
 
             % ONLY NEED EXPLOSOMAP
             if strcmp(key,keyEXPLOSOMAP)
-                int temp;
-                unsigned int i;
+                %int temp;
+                %unsigned int i;
                 for i = 0:1:subdatalen/4-1
                     temp = fread(fp, 1, 'int32');
                     % For old files
@@ -196,7 +196,7 @@ while( ~feof(fp) )
             elseif strcmp(key,keyFRAMETSC)
                 Frames(loadframe+1).TSC = fread(fp, 1, 'uint64');                
             elseif strcmp(key,keyFRAMESAMPLES)
-                Frames(loadframe+1).Data = fread(fp, subdatalen, 'uint16');                 
+                Frames(loadframe+1).Data = fread(fp, subdatalen/2, 'uint16');                 
             elseif strcmp(key,keyECGFRAMEDATA)
                 Frames(loadframe+1).ECGDataCount = subdatalen/16;
                 for loadline=0:1:subdatalen/16-1
