@@ -9,7 +9,7 @@ if readh_status~=0
     return;
 end
 
-% Display fields
+
 info.Clinic = "Duke University";
 info.Description = header.Description;
 info.Caption = header.Caption;

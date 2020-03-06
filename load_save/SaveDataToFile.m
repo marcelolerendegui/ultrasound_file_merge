@@ -1,5 +1,6 @@
-function [out] = SaveDataToFile(filename, data_to_write)
+function [out] = SaveDataTo4dVizFile(filename, data_to_write)
 % Loads a VMI File into local memory for display
+
 
 eval('load_constants') % load constants
 

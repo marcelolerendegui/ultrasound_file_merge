@@ -81,7 +81,8 @@ function plot_src_pyramid(ha, src3d, n_points, varargin)
     % convert to world coords
     [X, Y, Z] = scart2wcart(src3d, X, Y, Z);
     
-    plot3(ha, X(:), Y(:), Z(:), varargin{:});
+    p = plot3(ha, X(:), Y(:), Z(:), varargin{:});
+    set(get(get(p,'Annotation'),'LegendInformation'),'IconDisplayStyle','off');
     
     %% Axis
     Rs = rotationVectorToMatrix(deg2rad(src3d.dir_rot));
@@ -99,4 +100,22 @@ function plot_src_pyramid(ha, src3d, n_points, varargin)
     text(pos(1,1), pos(2,1), pos(3,1), 'x');
     text(pos(1,2), pos(2,2), pos(3,2), 'y');
     text(pos(1,3), pos(2,3), pos(3,3), 'z');
+end
+
+function [wx, wy, wz] = scart2wcart(src_3d, sx, sy, sz)
+
+    % camera transform matrix from source to world
+    Rs = rotationVectorToMatrix(deg2rad(src_3d.dir_rot));
+    ts = src_3d.position';
+    Psw = [Rs ts ; [0 0 0] 1];
+    
+    % convert to 4 signle rows [x(:); y(:); z(:); 1(:)] for matrix multiplication
+    ps_s_srow = [sx(:)'; sy(:)'; sz(:)'; ones(size(sz))'];
+    
+    ps_w_srow = Psw * ps_s_srow;
+    
+    wx = ps_w_srow(1,:);
+    wy = ps_w_srow(2,:);
+    wz = ps_w_srow(3,:);   
+
 end
