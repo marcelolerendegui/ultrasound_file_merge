@@ -1,12 +1,23 @@
 function [status, info, header, Frames] = SaveT5DataToFile(filename, data)
-
-data = reshape(data, [50, 404, 4, 32, 4, 32]);
-data = permute(data, [1, 2, 5, 3, 6, 4]);
-data = reshape(data, [50, 404*4*4*32*32]);
+% Load dummy file to overwrite with data.
+% Dummy file must have the appropiate resolution
 
 eval('load_constants') % load constants
-
 [readh_status, header] = ReadT5ileHeader(filename);
+
+% Prepare data to be written
+n_frames = header.FrameCount;
+ll = header.LineLength;
+exploso_side = sqrt(header.ExplosoCount);
+lines_side = sqrt(header.LineCount);
+
+data = reshape(data, ...
+    [n_frames, ll, exploso_side, lines_side, exploso_side, lines_side]);
+
+data = permute(data, [1, 2, 5, 3, 6, 4]);
+
+data = reshape(data, ...
+    [n_frames, ll*exploso_side*exploso_side*lines_side*lines_side]);
 
 if readh_status~=0
     status = 2;

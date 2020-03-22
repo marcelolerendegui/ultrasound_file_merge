@@ -72,8 +72,15 @@ frame_shape(1) = [];
     get_src_ind_from_dst(srcL, frame_shape, dst, frame_shape);
 
 % get frames from out perspective
-frameR_out = interpn(data, ones(frame_shape), r2out_iax, r2out_iaz, r2out_iel);
-frameL_out = interpn(data, 53*ones(frame_shape), l2out_iax, l2out_iaz, l2out_iel);
+frameR_out = interpn(data, ...
+    ones(frame_shape), r2out_iax, r2out_iaz, r2out_iel, ...
+    'linear', ...
+    0); % out of boundaries values turned to 0
+
+frameL_out = interpn(data, ...
+    53*ones(frame_shape), l2out_iax, l2out_iaz, l2out_iel,...
+    'linear', ...
+    0); % out of boundaries values turned to 0
 
 %% Test Plot slices 
 hf3 = figure();
@@ -91,4 +98,22 @@ out_frame = 0.5*frameR_out + 0.5*frameL_out;
 hf5 = figure();
 ha5 = axes();
 imagesc(ha5,squeeze(out_frame(:,32,:)));colormap('gray');
+
+
+%% Create out data
+% create empty out_data
+out_data = zeros(size(data), 'int16');
+
+% convert out_frame to int16
+out_frame = int16(out_frame .* (2^16-1));
+
+% write out_frame to first out_data frame
+out_data(1,:,:,:) = out_frame;
+
+
+%% Save to *.T5a file
+[out] = SaveT5DataToFile(...
+    '/mnt/media/duke/vr_lab/apnea_phantom/new/run1_Rfirst_Lsecond/out.t5d', ...
+    out_data);
+
 
