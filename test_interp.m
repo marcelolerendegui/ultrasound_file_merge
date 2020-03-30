@@ -43,11 +43,13 @@ axis equal
 
 
 %% Load Files
-filepath = '/mnt/media/duke/vr_lab/apnea_phantom/new/run1_Rfirst_Lsecond/full.t5d';
+filepath = 'data/full.t5d';
 [data, info] = readUltrasoundFile(filepath);
 
 
 %% Test Plot Slices
+
+
 % First Frame
 hf1 = figure();
 ha1 = axes();
@@ -105,7 +107,7 @@ imagesc(ha5,squeeze(out_frame(:,32,:)));colormap('gray');
 out_data = zeros(size(data), 'int16');
 
 % convert out_frame to int16
-out_frame = int16(out_frame .* (2^16-1));
+out_frame = int16(out_frame .* (2^16));
 
 % write out_frame to first out_data frame
 out_data(1,:,:,:) = out_frame;
@@ -113,7 +115,7 @@ out_data(1,:,:,:) = out_frame;
 
 %% Save to *.T5a file
 [out] = SaveT5DataToFile(...
-    '/mnt/media/duke/vr_lab/apnea_phantom/new/run1_Rfirst_Lsecond/out.t5d', ...
+    'data/out.t5d', ...
     out_data);
 
 
