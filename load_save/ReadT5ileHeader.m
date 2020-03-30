@@ -142,6 +142,8 @@ function [status, header] = ReadT5ileHeader(filename)
                     skip_data = fread(fp, datalen, 'char');
                 end
             end
+        else
+            skip_data = fread(fp, datalen, 'char');
         end
     end
 
