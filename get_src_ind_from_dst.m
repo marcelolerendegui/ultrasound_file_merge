@@ -70,8 +70,8 @@ function [indx_ax, indx_az, indx_el] = get_src_ind_from_dst(src3d, src_shape, ds
     s_delta_el = (src3d.el_span(2) - src3d.el_span(1))/s_nel;
 
     % Turn spherical coordinates to indices
-    indx_ax = (ax - dst3d.ax_span(1))./s_delta_ax;
-    indx_az = (az - dst3d.az_span(1))./s_delta_az;
-    indx_el = (el - dst3d.el_span(1))./s_delta_el;
+    indx_ax = (ax - src3d.ax_span(1))./s_delta_ax;
+    indx_az = (az - src3d.az_span(1))./s_delta_az;
+    indx_el = (el - src3d.el_span(1))./s_delta_el;
 
 end
